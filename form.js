@@ -70,6 +70,10 @@ async function showSearchedLocation(location) {
         data["current"]["humidity"] + " %";
       document.getElementById("Wind").innerHTML =
         data["current"]["wind_kph"] + " Km/h";
+      document.getElementById("country").innerHTML =
+        data["location"]["country"];
+      document.getElementById("region").innerHTML =
+        data["location"]["region"];
 
       // Get the time zone from the API response
       timeZone = data["location"]["tz_id"];

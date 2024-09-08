@@ -59,7 +59,7 @@ controls.dampingFactor = 0.01;
 function animate() {
   requestAnimationFrame(animate);
   if (object) {
-    object.rotation.y += 0.0002;
+    object.rotation.y += 0.0005;
   }
   renderer.render(scene, camera);
   controls.update();

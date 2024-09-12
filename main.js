@@ -50,10 +50,7 @@ const ambientLight = new THREE.AmbientLight(
   0x333333,
 );
 scene.add(ambientLight);
-
-let controls = new OrbitControls(camera, renderer.domElement); // Initialize controls here
-controls.enableDamping = true;
-controls.dampingFactor = 0.01;
+ 
 
 //Render the scene
 function animate() {
@@ -61,8 +58,7 @@ function animate() {
   if (object) {
     object.rotation.y += 0.0005;
   }
-  renderer.render(scene, camera);
-  controls.update();
+  renderer.render(scene, camera); 
 }
 
 window.addEventListener("resize", function () {

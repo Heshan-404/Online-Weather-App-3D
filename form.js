@@ -7,6 +7,8 @@ var temp_c = "27.4";
 var temp_f = "57.4";
 var current_temp_mode = "c";
 var timeZone = "Asia/Colombo";
+
+showSearchedLocation("Panadura");
 document.addEventListener("DOMContentLoaded", function () {
   const form = document.getElementById("locationSubmitForm");
 
@@ -47,11 +49,13 @@ async function showSearchedLocation(location) {
     const response = await fetch(
       `https://api.weatherapi.com/v1/current.json?key=${key}&q=${location}`
     );
-
+    
     const data = await response.json();
     if (data["error"]) {
-      // Handle error (e.g., display an error message)
     } else if (data["current"]) {
+      x = data["location"]["lat"];
+      y = data["location"]["lon"];
+      initializeMap(x, y);
       document
         .getElementById("weather-status-img")
         .setAttribute("src", `${data["current"]["condition"]["icon"]}`);
@@ -63,23 +67,21 @@ async function showSearchedLocation(location) {
       } else {
         document.getElementById("temp").innerHTML = temp_f;
       }
-
+      
       document.getElementById("Precipitation").innerHTML =
-        data["current"]["precip_mm"] * 100 + " %";
+      data["current"]["precip_mm"] * 100 + " %";
       document.getElementById("Humidity").innerHTML =
-        data["current"]["humidity"] + " %";
+      data["current"]["humidity"] + " %";
       document.getElementById("Wind").innerHTML =
-        data["current"]["wind_kph"] + " Km/h";
+      data["current"]["wind_kph"] + " Km/h";
       document.getElementById("country").innerHTML =
-        data["location"]["country"];
-      document.getElementById("region").innerHTML =
-        data["location"]["region"];
-
-      // Get the time zone from the API response
+      data["location"]["country"];
+      document.getElementById("region").innerHTML = data["location"]["region"];
+      
       timeZone = data["location"]["tz_id"];
-
-      // Update the date and time elements
+      
       updateDateTime(timeZone);
+      fetchForecastData(location);
     }
   } catch (error) {
     console.error("Error:", error);
@@ -114,9 +116,53 @@ function updateDateTime(timeZone) {
   document.getElementById("date").innerHTML = date;
   document.getElementById("time").innerHTML = time;
   document.getElementById("day").innerHTML = dayOfWeek;
+}
+async function fetchForecastData(currenttLocation) {
+  const today = new Date();
 
+  for (var i = 1; i <= 7; i++) {
+    // Loop from 1 to 7
+    await new Promise((resolve, reject) => {
+      var date = new Date(today);
+      date.setDate(date.getDate() + i);
+      var year = date.getFullYear();
+      var month = (date.getMonth() + 1).toString().padStart(2, "0");
+      var day = date.getDate().toString().padStart(2, "0");
+      var formattedDate = year + "-" + month + "-" + day;
+
+      fetch(
+        `https://api.weatherapi.com/v1/forecast.json?key=${key}&q=${currenttLocation}&dt=${formattedDate}`
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          // Update the corresponding elements in your HTML
+          document.getElementById(`future-forecast-date-${i}`).innerHTML =
+            data["forecast"]["forecastday"][0]["date"];
+          document.getElementById(`future-weather-status-img-${i}`).src =
+            data["forecast"]["forecastday"][0]["day"]["condition"]["icon"];
+          document.getElementById(`future-forecast-status-${i}`).innerHTML =
+            data["forecast"]["forecastday"][0]["day"]["condition"]["text"];
+          resolve();
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    });
+  }
 }
 
+var map;
+function initializeMap(latitude, longitude) {
+    if (map) {
+        map.remove();
+    }
+    map = L.map('map').setView([latitude, longitude], 16); // Set initial coordinates and zoom level
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+    var marker = L.marker([latitude, longitude]).addTo(map); // Add a marker at specified coordinates
+}
 // You can still use setInterval to update the time periodically if needed:
 setInterval(() => {
   // Assuming you have the timeZone stored somewhere (e.g., after calling showSearchedLocation)

@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>A simple Three.JS App with Button</title>
+    <link rel="stylesheet" href="./style.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
+
+
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  </head>
+  <body>
+    <div>
+      <script src="./form.js"></script>
+
+      <div id="container3D"></div>
+      <div id="weather-text">Weather</div>
+      <form id="locationSubmitForm">
+        <div id="search-bar">
+          <div id="search-inner-box">
+            <input
+              type="text"
+              id="inputLocation"
+              placeholder="Search location"
+            />
+            <button id="searchButton">Search</button>
+          </div>
+        </div>
+      </form>
+      <div id="box-1">
+        <div class="inside-box">
+          <div id="city">Galle</div>
+          <img
+            id="weather-status-img"
+            src="//cdn.weatherapi.com/weather/64x64/night/116.png"
+            alt=""
+            srcset=""
+          />
+          <div id="temp">27.3</div>
+          <div id="temp-change-btns">
+            <div class="change-temprature-c">
+              <button
+                class="btn-change-temprature"
+                id="btn-change-temprature-c"
+                onclick="updateTemperature('c')"
+              >
+                C°
+              </button>
+            </div>
+            &nbsp; &nbsp;
+            <div class="change-temprature-f">
+              <button
+                class="btn-change-temprature"
+                onclick="updateTemperature('f')"
+                id="btn-change-temprature-f"
+              >
+                F°
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="box-2">
+        <div class="inside-box">
+          <div class="Precipitation">Preception</div>
+          <div id="Precipitation">10 %</div>
+
+          <div class="Humidity">Humidity</div>
+          <div id="Humidity">86 %</div>
+          <div class="Wind">Wind</div>
+          <div id="Wind">86 Km/h</div>
+        </div>
+      </div>
+      <div id="box-3">
+        <div class="inside-box">
+          <div class="Time">Time</div>
+          <div id="time">09:21:03 PM</div>
+          <div class="Date">Date</div>
+          <div id="date">09-08-2024</div>
+          <div class="Day"></div>
+          <div id="day">Monday</div>
+        </div>
+      </div>
+      <div id="box-4">
+        <div class="inside-box">
+          <div class="country">Country</div>
+          <div id="country">Sri Lanka</div>
+
+          <div class="region">Region</div>
+          <div id="region">Southern</div>
+        </div>
+      </div>
+      <div>
+        <div id="box-5">
+          <div class="inside-box">
+            <div class="future-forecast-tittle">Weather Forecast Future</div>
+            <div class="future-forecast-container">
+              <div class="section">
+                <div class="circle">
+                  <div class="future-forecast-date" id="future-forecast-date-1">
+                    2024-10-10
+                  </div>
+                  <img
+                    id="future-weather-status-img-1"
+                    class="future-weather-status-img"
+                    src="//cdn.weatherapi.com/weather/64x64/night/116.png"
+                    alt=""
+                    srcset=""
+                  />
+                  <div
+                    class="future-forecast-status"
+                    id="future-forecast-status-1"
+                  >
+                    Moderate rain
+                  </div>
+                </div>
+              </div>
+              <div class="section">
+                <div class="circle">
+                  <div class="future-forecast-date" id="future-forecast-date-2">
+                    2024-10-11
+                  </div>
+                  <img
+                    id="future-weather-status-img-2"
+                    class="future-weather-status-img"
+                    src="//cdn.weatherapi.com/weather/64x64/night/116.png"
+                    alt=""
+                    srcset=""
+                  />
+                  <div
+                    class="future-forecast-status"
+                    id="future-forecast-status-2"
+                  >
+                    Moderate rain
+                  </div>
+                </div>
+              </div>
+              <div class="section">
+                <div class="circle">
+                  <div class="future-forecast-date" id="future-forecast-date-3">
+                    2024-10-12
+                  </div>
+                  <img
+                    id="future-weather-status-img-3"
+                    class="future-weather-status-img"
+                    src="//cdn.weatherapi.com/weather/64x64/night/116.png"
+                    alt=""
+                    srcset=""
+                  />
+                  <div
+                    class="future-forecast-status"
+                    id="future-forecast-status-3"
+                  >
+                    Moderate rain
+                  </div>
+                </div>
+              </div>
+              <div class="section">
+                <div class="circle">
+                  <div class="future-forecast-date" id="future-forecast-date-4">
+                    2024-10-13
+                  </div>
+                  <img
+                    id="future-weather-status-img-4"
+                    class="future-weather-status-img"
+                    src="//cdn.weatherapi.com/weather/64x64/night/116.png"
+                    alt=""
+                    srcset=""
+                  />
+                  <div
+                    class="future-forecast-status"
+                    id="future-forecast-status-4"
+                  >
+                    Moderate rain
+                  </div>
+                </div>
+              </div>
+              <div class="section">
+                <div class="circle">
+                  <div class="future-forecast-date" id="future-forecast-date-5">
+                    2024-10-14
+                  </div>
+                  <img
+                    id="future-weather-status-img-5"
+                    class="future-weather-status-img"
+                    src="//cdn.weatherapi.com/weather/64x64/night/116.png"
+                    alt=""
+                    srcset=""
+                  />
+                  <div
+                    class="future-forecast-status"
+                    id="future-forecast-status-5"
+                  >
+                    Moderate rain
+                  </div>
+                </div>
+              </div>
+              <div class="section">
+                <div class="circle">
+                  <div class="future-forecast-date" id="future-forecast-date-6">
+                    2024-10-15
+                  </div>
+                  <img
+                    id="future-weather-status-img-6"
+                    class="future-weather-status-img"
+                    src="//cdn.weatherapi.com/weather/64x64/night/116.png"
+                    alt=""
+                    srcset=""
+                  />
+                  <div
+                    class="future-forecast-status"
+                    id="future-forecast-status-6"
+                  >
+                    Moderate rain
+                  </div>
+                </div>
+              </div>
+              <div class="section">
+                <div class="circle">
+                  <div class="future-forecast-date" id="future-forecast-date-7">
+                    2024-10-16
+                  </div>
+                  <img
+                    id="future-weather-status-img-7"
+                    class="future-weather-status-img"
+                    src="//cdn.weatherapi.com/weather/64x64/night/116.png"
+                    alt=""
+                    srcset=""
+                  />
+                  <div
+                    class="future-forecast-status"
+                    id="future-forecast-status-7"
+                  >
+                    Moderate rain
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div id="box-6">
+          <div class="inside-box">
+            <div class="map-conatainer">
+              <div class="tittle-map">MAP</div>
+              <center><div class="div-map"></div>
+                <div id="map"></div>
+              </div></center>
+            </div>
+          </div>
+        </div>
+
+        <script type="module" src="./main.js"></script>
+      </div>
+    </div>
+  </body>
+</html>
